@@ -36,7 +36,8 @@ public class MercadoriasMenu {
 
         for (int i=0; i<controle.getTotalMercadorias(); i++){
             s=controle.retornarPercentualPorMercadoria(i, dFaturamentoTotalMensal);
-            EntradaSaida.coutln("Encerrado.");
+            EntradaSaida.coutln(s);
         }
+        EntradaSaida.coutln("Encerrado.");
     }
 }
