@@ -1,14 +1,21 @@
 package com.example.Mercadorias.view;
 
-import com.example.Mercadorias.controller.MercadoriasControle;
+import com.example.Mercadorias.controler.MercadoriasControle;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.io.IOException;
 import java.util.Scanner;
 
+@Component
 public class MercadoriasMenu {
 
-    private MercadoriasControle controle = new MercadoriasControle();
+    @Autowired
+    private MercadoriasControle controle; // ✅ Spring injeta automaticamente
+
     private Scanner scanner = new Scanner(System.in);
 
-    public void executa() {
+    public void executa() throws IOException {
         System.out.println("Faturamento de Mercadorias.");
         char ch = ' ';
 

@@ -1,17 +1,23 @@
-package com.example.Mercadorias.controller;
+package com.example.Mercadorias.controler;
 
 import com.example.Mercadorias.model.Mercadoria;
-import java.util.ArrayList;
+import com.example.Mercadorias.repository.MercadoriaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import java.util.List;
+
+@Component
 public class MercadoriasControle {
 
-    private ArrayList<Mercadoria> m_vctMercadorias = new ArrayList<>();
+    @Autowired
+    private MercadoriaRepository repository;
 
     public String calculaMaiorTotalDeVendasEmReais() {
+        List<Mercadoria> lista = repository.findAll();
         double dPrecoTotal = 0;
         Mercadoria mMaiorVenda = new Mercadoria();
-        for (int i = 0; i < m_vctMercadorias.size(); i++) {
-            Mercadoria m = m_vctMercadorias.get(i);
+        for (Mercadoria m : lista) {
             double dTotalMercadoria = m.getPreco() * m.getQuantidade();
             if (dTotalMercadoria > dPrecoTotal) {
                 mMaiorVenda = m;
@@ -24,16 +30,16 @@ public class MercadoriasControle {
     }
 
     public double calculaFaturamentoTotalMensal() {
+        List<Mercadoria> lista = repository.findAll();
         double dFaturamento = 0;
-        for (int i = 0; i < m_vctMercadorias.size(); i++) {
-            Mercadoria m = m_vctMercadorias.get(i);
+        for (Mercadoria m : lista) {
             dFaturamento += (m.getPreco() * m.getQuantidade());
         }
         return dFaturamento;
     }
 
     public int getTotalMercadorias() {
-        return m_vctMercadorias.size();
+        return (int) repository.count();
     }
 
     public void adicionaMercadoria(String nome, double preco, int quantidade) {
@@ -41,13 +47,14 @@ public class MercadoriasControle {
         m.setNome(nome);
         m.setPreco(preco);
         m.setQuantidade(quantidade);
-        m_vctMercadorias.add(m);
+        repository.save(m); // ✅ salva no banco
     }
 
     public String retornarPercentualPorMercadoria(int i, double dFaturamentoTotalMensal) {
+        List<Mercadoria> lista = repository.findAll();
         String s = "";
-        if (i < m_vctMercadorias.size()) {
-            Mercadoria m = m_vctMercadorias.get(i);
+        if (i < lista.size()) {
+            Mercadoria m = lista.get(i);
             double dPerc = ((m.getPreco() * m.getQuantidade()) / dFaturamentoTotalMensal) * 100;
             s = "A mercadoria " + m.getNome()
                     + " tem o percentual no faturamento igual a " + dPerc + " %";

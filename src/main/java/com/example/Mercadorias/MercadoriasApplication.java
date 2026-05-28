@@ -3,14 +3,15 @@ package com.example.Mercadorias;
 import com.example.Mercadorias.view.MercadoriasMenu;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 
 @SpringBootApplication
 public class MercadoriasApplication {
 
     public static void main(String[] args) throws Exception {
-        SpringApplication.run(MercadoriasApplication.class, args);
+        ApplicationContext context = SpringApplication.run(MercadoriasApplication.class, args);
 
-        MercadoriasMenu menu = new MercadoriasMenu();
+        MercadoriasMenu menu = context.getBean(MercadoriasMenu.class);
         menu.executa();
     }
 }
